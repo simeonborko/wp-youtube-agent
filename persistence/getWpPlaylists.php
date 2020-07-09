@@ -25,7 +25,7 @@ SQL;
     throw new \Exception("WP playlists could not be queried");
   }
   
-  $playlists = [];
+  $playlists = array();
   while ($row = $result->fetch_assoc()) {
       $p = new Entity\WpPlaylist();
       $p->id = $row["id"];

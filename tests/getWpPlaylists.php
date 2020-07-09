@@ -16,7 +16,9 @@ $playlists = Persistence\getWpPlaylists($mysqli);
 foreach ($playlists as $p):
 ?>
     <tr>
-        <td><?= $p->id ?></td>
+        <td>
+            <a href="./getWpSermons.php?playlistId=<?= $p->id ?>" target="_blank"><?= $p->id ?></a>
+        </td>
         <td><?= $p->title ?></td>
         <td><?= $p->description ?></td>
         <td>
