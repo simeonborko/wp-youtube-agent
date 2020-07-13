@@ -1,2 +1,4 @@
 /vendor
 /composer.lock
+/tests/developerKey.txt
+/tests/channelId.txt
