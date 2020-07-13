@@ -3,7 +3,7 @@
 namespace SimeonBorko\WpYoutubeAgent\Persistence;
 
 // param service: Google Service Youtube instance
-// param playlistId: video id
+// param videoId: video id
 // return: list of tags
 function getYtTags($service, $videoId) {
   $queryParams = array(
