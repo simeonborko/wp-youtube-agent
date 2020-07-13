@@ -14,7 +14,6 @@ function getYtPlaylists($service, $channelId) {
   );
   $playlists = array();
   $response = getResponse($service, $queryParams);
-  // var_dump($response);
   while ($response->nextPageToken) {
     processItems($playlists, $response->items);
     $queryParams['pageToken'] = $response->nextPageToken;

@@ -24,7 +24,7 @@ $playlists = Persistence\getYtPlaylists($service, $channelId);
 foreach ($playlists as $p):
 ?>
     <tr>
-        <td><?= $p->id ?></td>
+        <td><a href="./getYtVideos.php?playlistId=<?= $p->id ?>" target="_blank"><?= $p->id ?></a></td>
         <td><?= $p->title ?></td>
         <td><?= $p->itemCount ?></td>
     </tr>
