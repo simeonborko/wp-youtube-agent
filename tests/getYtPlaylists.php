@@ -1,10 +1,10 @@
 <?php
 
 require_once "../entity/YtPlaylist.php";
-require_once "../persistence/getYtPlaylists.php";
+require_once "../repository/YtPlaylistRepository.php";
 require_once '../vendor/autoload.php';
 
-use SimeonBorko\WpYoutubeAgent\Persistence;
+use SimeonBorko\WpYoutubeAgent\Repository\YtPlaylistRepository;
 
 $developerKey = \trim(\file_get_contents('./developerKey.txt'));
 $channelId = \trim(\file_get_contents('./channelId.txt'));
@@ -15,7 +15,7 @@ $client->setDeveloperKey($developerKey);
 
 $service = new \Google_Service_YouTube($client);
 
-$playlists = Persistence\getYtPlaylists($service, $channelId);
+$playlists = (new YtPlaylistRepository($service))->findByChannelId($channelId);
 
 ?>
 

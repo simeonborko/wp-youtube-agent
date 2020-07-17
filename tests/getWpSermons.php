@@ -8,13 +8,13 @@ if (!$_GET["playlistId"]) {
 $playlistId = $_GET["playlistId"];
 
 require_once "../entity/WpSermon.php";
-require_once "../persistence/getWpSermons.php";
+require_once "../repository/WpSermonRepository.php";
 
-use SimeonBorko\WpYoutubeAgent\Persistence;
+use SimeonBorko\WpYoutubeAgent\Repository\WpSermonRepository;
 
 $mysqli = new mysqli("127.0.0.1", "wpuser", "wppassword", "wpdb", 3307);
 
-$sermons = Persistence\getWpSermons($mysqli, $playlistId);
+$sermons = (new WpSermonRepository($mysqli))->findByPlaylistId($playlistId);
 
 ?>
 

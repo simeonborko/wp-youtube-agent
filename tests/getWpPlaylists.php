@@ -1,13 +1,13 @@
 <?php
 
 require_once "../entity/WpPlaylist.php";
-require_once "../persistence/getWpPlaylists.php";
+require_once "../repository/WpPlaylistRepository.php";
 
-use SimeonBorko\WpYoutubeAgent\Persistence;
+use SimeonBorko\WpYoutubeAgent\Repository\WpPlaylistRepository;
 
 $mysqli = new mysqli("127.0.0.1", "wpuser", "wppassword", "wpdb", 3307);
 
-$playlists = Persistence\getWpPlaylists($mysqli);
+$playlists = (new WpPlaylistRepository($mysqli))->findAll();
 
 ?>
 

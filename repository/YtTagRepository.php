@@ -1,19 +1,29 @@
 <?php
 
-namespace SimeonBorko\WpYoutubeAgent\Persistence;
+namespace SimeonBorko\WpYoutubeAgent\Repository;
 
-// param service: Google Service Youtube instance
-// param videoId: video id
-// return: list of tags
-function getYtTags($service, $videoId) {
-  $queryParams = array(
-    'id' => $videoId
-  );
-  $response = $service->videos->listVideos('snippet', $queryParams);
-  if (\count($response->items) > 0) {
-      $tags = $response->items[0]->snippet->tags;
-  } else {
-      $tags = array();
+class YtTagRepository
+{
+  protected $service;
+  
+  // param service: Google Service Youtube instance
+  public function __construct($service)
+  {
+    $this->service = $service;
   }
-  return $tags;
+
+  // param videoId: video id
+  // return: list of tags
+  public function findByVideoId($videoId) {
+    $queryParams = array(
+      'id' => $videoId
+    );
+    $response = $this->service->videos->listVideos('snippet', $queryParams);
+    if (\count($response->items) > 0) {
+      $tags = $response->items[0]->snippet->tags;
+    } else {
+      $tags = array();
+    }
+    return $tags;
+  }
 }

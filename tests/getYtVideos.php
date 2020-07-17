@@ -8,11 +8,11 @@ if (!$_GET["playlistId"]) {
 $playlistId = $_GET["playlistId"];
 
 require_once "../entity/YtVideo.php";
-require_once "../persistence/getYtVideos.php";
-require_once "../persistence/getYtTags.php";
+require_once "../repository/YtVideoRepository.php";
+require_once "../repository/YtTagRepository.php";
 require_once '../vendor/autoload.php';
 
-use SimeonBorko\WpYoutubeAgent\Persistence;
+use SimeonBorko\WpYoutubeAgent\Repository;
 
 $developerKey = \trim(\file_get_contents('./developerKey.txt'));
 
@@ -22,10 +22,13 @@ $client->setDeveloperKey($developerKey);
 
 $service = new \Google_Service_YouTube($client);
 
-$videos = Persistence\getYtVideos($service, $playlistId);
+$videoRepo = new Repository\YtVideoRepository($service);
+$tagRepo = new Repository\YtTagRepository($service);
+
+$videos = $videoRepo->findByPlaylistId($playlistId);
 
 foreach ($videos as $video) {
-    $video->tags = Persistence\getYtTags($service, $video->id);
+    $video->tags = $tagRepo->findByVideoId($video->id);
 }
 
 ?>
