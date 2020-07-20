@@ -8,7 +8,7 @@ class WpSermonNativeRepository
 {
   const SERMON_POST_TYPE = 'sermon';
   
-  public function save($sermon)
+  public function save($sermon, $publish=true)
   {
     // id, title, description
     $result = \wp_insert_post(array(
@@ -16,7 +16,8 @@ class WpSermonNativeRepository
         'post_title' => $sermon->title,
         'post_name' => \sanitize_title($sermon->title),
         'post_content' => $sermon->description,
-        'post_type' => self::SERMON_POST_TYPE
+        'post_type' => self::SERMON_POST_TYPE,
+        'post_status' => $publish ? 'publish' :  'draft'
     ));
     if (!$result) {
         throw new \Exception("Sermon could not be saved");
