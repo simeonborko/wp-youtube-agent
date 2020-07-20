@@ -6,13 +6,16 @@ require_once __DIR__."/WpSermonRepository.php";
 
 class WpSermonNativeRepository
 {
+  const SERMON_POST_TYPE = 'sermon';
+  
   public function save($sermon)
   {
     // id, title, description
     $result = \wp_insert_post(array(
         'ID' => $sermon->id,
         'post_title' => $sermon->title,
-        'post_content' => $sermon->description
+        'post_content' => $sermon->description,
+        'post_type' => self::SERMON_POST_TYPE
     ));
     if (!$result) {
         throw new \Exception("Sermon could not be saved");
@@ -60,7 +63,7 @@ class WpSermonNativeRepository
   
   protected function setThumbnailFromUrl($sermonId, $slug, $imageUrl)
   {
-    $imageContents = \file_get_contents(\urlencode($imageUrl));
+    $imageContents = \file_get_contents($imageUrl);
 
     $upload = \wp_upload_bits($slug.'.jpg', null, $imageContents);
 
