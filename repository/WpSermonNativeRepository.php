@@ -14,6 +14,7 @@ class WpSermonNativeRepository
     $result = \wp_insert_post(array(
         'ID' => $sermon->id,
         'post_title' => $sermon->title,
+        'post_name' => \sanitize_title($sermon->title),
         'post_content' => $sermon->description,
         'post_type' => self::SERMON_POST_TYPE
     ));
