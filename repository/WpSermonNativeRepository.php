@@ -23,8 +23,6 @@ class WpSermonNativeRepository
         throw new \Exception("Sermon could not be saved");
     }
     $sermon->id = $result;
-    // TODO post_status is default draft
-    // https://developer.wordpress.org/reference/functions/wp_insert_post/
     
     // imageUrl
     if ($sermon->imageUrl && !\has_post_thumbnail($sermon->id)) {
@@ -87,28 +85,5 @@ class WpSermonNativeRepository
     $success = \set_post_thumbnail( $sermonId, $attachmentId );
 
     return $success;
-  }
-  
-  protected function addMetaIfNotExists($sermonId, $metaKey) {
-      
-  }
-  
-  protected function saveTags($sermonId, $tags)
-  {
-    
-  }
-  
-  protected function saveSpeaker($sermonId, $speaker)
-  {
-    
-  }
-  
-  protected function create_term($tag_name, $taxonomy)
-  {
-    $id = \term_exists( $tag_name, $taxonomy );
-    if ( $id ) {
-        return $id;
-    }
-    return \wp_insert_term( $tag_name, $taxonomy );
   }
 }
