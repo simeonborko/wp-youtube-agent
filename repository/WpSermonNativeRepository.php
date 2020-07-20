@@ -6,7 +6,7 @@ require_once __DIR__."/WpSermonRepository.php";
 
 class WpSermonNativeRepository
 {
-  const SERMON_POST_TYPE = 'sermon';
+  const SERMON_POST_TYPE = 'sermons';
   
   public function save($sermon, $publish=true)
   {
