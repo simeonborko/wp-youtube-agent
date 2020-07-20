@@ -8,6 +8,11 @@ class WpSermonRepository
 {
   protected $mysqli;
   
+  const TAX_SPEAKER = 'sermons-speakers';
+  const TAX_TAG     = 'sermons-tag';
+  const META_KEY_VIDEO = 'imic_sermons_url';
+  const META_KEY_AUDIO = 'imic_sermons_url_audio';
+  
   public function __construct($mysqli)
   {
     $this->mysqli = $mysqli;
@@ -69,20 +74,20 @@ SQL;
     $sermon->description = $row["description"];
     
     // speaker
-    $speakers = $this->getRelationship($sermonId, 'sermons-speakers');
+    $speakers = $this->getRelationship($sermonId, self::TAX_SPEAKER);
     if (count($speakers) > 0) {
       $sermon->speaker = $speakers[0]["name"];
     }
     
     // tags
-    $tags = $this->getRelationship($sermonId, 'sermons-tag');
+    $tags = $this->getRelationship($sermonId, self::TAX_TAG);
     $sermon->tags = array_map(function($t){ return $t["name"]; }, $tags);
     
     // videoId
-    $sermon->videoId = $this->getVideoId($this->getPostMeta($sermonId, 'imic_sermons_url'));
+    $sermon->videoId = $this->getVideoId($this->getPostMeta($sermonId, self::META_KEY_VIDEO));
     
     // audioUrl
-    $sermon->audioUrl = $this->getPostMeta($sermonId, 'imic_sermons_url_audio');
+    $sermon->audioUrl = $this->getPostMeta($sermonId, self::META_KEY_AUDIO);
     
     return $sermon;
   }

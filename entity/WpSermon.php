@@ -15,4 +15,9 @@ class WpSermon {
 
   public $audioId; // id of Audio
   public $audioUrl;
+  
+  public function getVideoUrl()
+  {
+    return 'https://youtu.be/'.$this->videoId;
+  }
 }
