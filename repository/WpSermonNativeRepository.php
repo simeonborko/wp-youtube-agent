@@ -2,7 +2,7 @@
 
 namespace SimeonBorko\WpYoutubeAgent\Repository;
 
-require_once "./WpSermonRepository.php";
+require_once __DIR__."/WpSermonRepository.php";
 
 class WpSermonNativeRepository
 {

@@ -1,8 +1,8 @@
 <?php
 
-require_once '../../wp-load.php';
-require_once "../entity/WpSermon.php";
-require_once "../repository/WpSermonNativeRepository.php";
+require_once __DIR__.'/../../wp-load.php';
+require_once __DIR__."/../entity/WpSermon.php";
+require_once __DIR__."/../repository/WpSermonNativeRepository.php";
 
 use SimeonBorko\WpYoutubeAgent\Entity\WpSermon;
 use SimeonBorko\WpYoutubeAgent\Repository\WpSermonNativeRepository;

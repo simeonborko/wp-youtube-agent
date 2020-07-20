@@ -1,7 +1,7 @@
 <?php
 
-require_once "../entity/WpPlaylist.php";
-require_once "../repository/WpPlaylistRepository.php";
+require_once __DIR__."/../entity/WpPlaylist.php";
+require_once __DIR__."/../repository/WpPlaylistRepository.php";
 
 use SimeonBorko\WpYoutubeAgent\Repository\WpPlaylistRepository;
 

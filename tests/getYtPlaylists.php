@@ -1,8 +1,8 @@
 <?php
 
-require_once "../entity/YtPlaylist.php";
-require_once "../repository/YtPlaylistRepository.php";
-require_once '../vendor/autoload.php';
+require_once __DIR__."/../entity/YtPlaylist.php";
+require_once __DIR__."/../repository/YtPlaylistRepository.php";
+require_once __DIR__.'/../vendor/autoload.php';
 
 use SimeonBorko\WpYoutubeAgent\Repository\YtPlaylistRepository;
 

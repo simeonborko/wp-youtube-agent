@@ -7,8 +7,8 @@ if (!$_GET["playlistId"]) {
 
 $playlistId = $_GET["playlistId"];
 
-require_once "../entity/WpSermon.php";
-require_once "../repository/WpSermonRepository.php";
+require_once __DIR__."/../entity/WpSermon.php";
+require_once __DIR__."/../repository/WpSermonRepository.php";
 
 use SimeonBorko\WpYoutubeAgent\Repository\WpSermonRepository;
 

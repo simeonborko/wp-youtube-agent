@@ -7,10 +7,10 @@ if (!$_GET["playlistId"]) {
 
 $playlistId = $_GET["playlistId"];
 
-require_once "../entity/YtVideo.php";
-require_once "../repository/YtVideoRepository.php";
-require_once "../repository/YtTagRepository.php";
-require_once '../vendor/autoload.php';
+require_once __DIR__."/../entity/YtVideo.php";
+require_once __DIR__."/../repository/YtVideoRepository.php";
+require_once __DIR__."/../repository/YtTagRepository.php";
+require_once __DIR__."/../vendor/autoload.php";
 
 use SimeonBorko\WpYoutubeAgent\Repository;
 
