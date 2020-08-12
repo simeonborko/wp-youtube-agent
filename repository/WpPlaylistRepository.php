@@ -31,16 +31,16 @@ class WpPlaylistRepository
         OPT_YT.option_value AS playlist_id
       FROM wp_term_taxonomy TAX
       INNER JOIN wp_terms TER
-        ON TAX.taxonomy = $playlist_taxonomy AND TAX.term_id = TER.term_id
+        ON TAX.taxonomy = "$playlist_taxonomy" AND TAX.term_id = TER.term_id
       LEFT JOIN wp_options OPT_IMG
-        ON OPT.option_name = CONCAT($playlist_taxonomy, TER.term_id, $image_option_suffix)
+        ON OPT_IMG.option_name = CONCAT("$playlist_taxonomy", TER.term_id, "$image_option_suffix")
       LEFT JOIN wp_options OPT_YT
-        ON OPT.option_name = CONCAT($playlist_taxonomy, TER.term_id, $youtube_id_suffix)
+        ON OPT_YT.option_name = CONCAT("$playlist_taxonomy", TER.term_id, "$youtube_id_suffix")
 SQL;
-    
+
     $result = $this->mysqli->query($query);
     if (!$result) {
-      throw new \Exception("WP playlists could not be queried");
+      throw new \Exception("WP playlists could not be queried, error: ".$this->mysqli->error);
     }
     
     $playlists = array();
