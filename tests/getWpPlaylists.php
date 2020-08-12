@@ -18,6 +18,7 @@ foreach ($playlists as $p):
     <tr>
         <td>
             <a href="./getWpSermons.php?playlistId=<?= $p->id ?>" target="_blank"><?= $p->id ?></a>
+            <?php if ($p->playlistId): ?>(<?= $p->playlistId ?>)<?php endif ?>
         </td>
         <td><?= $p->title ?></td>
         <td><?= $p->description ?></td>
