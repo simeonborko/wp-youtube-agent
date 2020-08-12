@@ -2,6 +2,8 @@
 
 namespace SimeonBorko\WpYoutubeAgent\Repository;
 
+require_once __DIR__."/constants.php";
+
 use SimeonBorko\WpYoutubeAgent\Entity;
 
 class WpPlaylistRepository
@@ -17,17 +19,23 @@ class WpPlaylistRepository
   // return: list of WpPlaylist
   public function findAll()
   {
-    $query = <<<'SQL'
+    $playlist_taxonomy = WP_PLAYLIST_TAXONOMY;
+    $image_option_suffix = WP_PLAYLIST_OPTION_IMAGE_URL_SUFFIX;
+    $youtube_id_suffix = WP_PLAYLIST_OPTION_YOUTUBE_ID_SUFFIX;
+    $query = <<<SQL
       SELECT
         TAX.term_id AS id,
         `name` AS title,
         `description`,
-        OPT.option_value AS image_url
+        OPT_IMG.option_value AS image_url,
+        OPT_YT.option_value AS playlist_id
       FROM wp_term_taxonomy TAX
       INNER JOIN wp_terms TER
-        ON TAX.taxonomy = "sermons-category" AND TAX.term_id = TER.term_id
-      LEFT JOIN wp_options OPT
-        ON OPT.option_name = CONCAT("sermons-category", TER.term_id, "_image_term_id")
+        ON TAX.taxonomy = $playlist_taxonomy AND TAX.term_id = TER.term_id
+      LEFT JOIN wp_options OPT_IMG
+        ON OPT.option_name = CONCAT($playlist_taxonomy, TER.term_id, $image_option_suffix)
+      LEFT JOIN wp_options OPT_YT
+        ON OPT.option_name = CONCAT($playlist_taxonomy, TER.term_id, $youtube_id_suffix)
 SQL;
     
     $result = $this->mysqli->query($query);
@@ -42,6 +50,7 @@ SQL;
         $p->title = $row["title"];
         $p->description = $row["description"];
         $p->imageUrl = $row["image_url"];
+        $p->playlistId = $row["playlist_id"];
         $playlists[] = $p;
     }
     $result->close();

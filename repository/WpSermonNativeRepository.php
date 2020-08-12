@@ -2,6 +2,7 @@
 
 namespace SimeonBorko\WpYoutubeAgent\Repository;
 
+require_once __DIR__."/constants.php";
 require_once __DIR__."/WpSermonRepository.php";
 
 class WpSermonNativeRepository
@@ -59,6 +60,11 @@ class WpSermonNativeRepository
         true
       );
     }
+  }
+  
+  public function addToPlaylist($sermonId, $playlistId)
+  {
+    \wp_set_object_terms($sermonId, $playlistId, WP_PLAYLIST_TAXONOMY);
   }
   
   protected function setThumbnailFromUrl($sermonId, $slug, $imageUrl)
