@@ -4,6 +4,8 @@ use SimeonBorko\WpYoutubeAgent\Entity\WpPlaylist;
 use SimeonBorko\WpYoutubeAgent\Repository\WpPlaylistNativeRepository;
 
 require_once __DIR__."/saveSermon.php";
+require_once __DIR__."/../entity/WpPlaylist.php";
+require_once __DIR__."/../repository/WpPlaylistNativeRepository.php";
 
 $playlist = new WpPlaylist();
 $playlist->title = "My Playlist";
