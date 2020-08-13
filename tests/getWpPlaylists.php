@@ -1,11 +1,12 @@
 <?php
 
+require_once __DIR__."/common.php";
 require_once __DIR__."/../entity/WpPlaylist.php";
 require_once __DIR__."/../repository/WpPlaylistRepository.php";
 
 use SimeonBorko\WpYoutubeAgent\Repository\WpPlaylistRepository;
 
-$mysqli = new mysqli("127.0.0.1", "wpuser", "wppassword", "wpdb", 3307);
+$mysqli = getMysqli();
 
 $playlists = (new WpPlaylistRepository($mysqli))->findAll();
 

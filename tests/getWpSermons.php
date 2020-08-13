@@ -7,12 +7,13 @@ if (!$_GET["playlistId"]) {
 
 $playlistId = $_GET["playlistId"];
 
+require_once __DIR__."/common.php";
 require_once __DIR__."/../entity/WpSermon.php";
 require_once __DIR__."/../repository/WpSermonRepository.php";
 
 use SimeonBorko\WpYoutubeAgent\Repository\WpSermonRepository;
 
-$mysqli = new mysqli("127.0.0.1", "wpuser", "wppassword", "wpdb", 3307);
+$mysqli = getMysqli();
 
 $sermons = (new WpSermonRepository($mysqli))->findByPlaylistId($playlistId);
 

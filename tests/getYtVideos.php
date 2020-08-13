@@ -7,20 +7,14 @@ if (!$_GET["playlistId"]) {
 
 $playlistId = $_GET["playlistId"];
 
+require_once __DIR__."/common.php";
 require_once __DIR__."/../entity/YtVideo.php";
 require_once __DIR__."/../repository/YtVideoRepository.php";
 require_once __DIR__."/../repository/YtTagRepository.php";
-require_once __DIR__."/../vendor/autoload.php";
 
 use SimeonBorko\WpYoutubeAgent\Repository;
 
-$developerKey = \trim(\file_get_contents('./developerKey.txt'));
-
-$client = new \Google_Client();
-$client->setApplicationName("WP Youtube Agent");
-$client->setDeveloperKey($developerKey);
-
-$service = new \Google_Service_YouTube($client);
+$service = getYoutubeService();
 
 $videoRepo = new Repository\YtVideoRepository($service);
 $tagRepo = new Repository\YtTagRepository($service);

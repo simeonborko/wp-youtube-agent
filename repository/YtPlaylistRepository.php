@@ -2,6 +2,8 @@
 
 namespace SimeonBorko\WpYoutubeAgent\Repository;
 
+require_once __DIR__."/../entity/YtPlaylist.php";
+
 use SimeonBorko\WpYoutubeAgent\Entity;
 
 class YtPlaylistRepository

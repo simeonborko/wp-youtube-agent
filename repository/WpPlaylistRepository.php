@@ -3,6 +3,7 @@
 namespace SimeonBorko\WpYoutubeAgent\Repository;
 
 require_once __DIR__."/constants.php";
+require_once __DIR__."/../entity/WpPlaylist.php";
 
 use SimeonBorko\WpYoutubeAgent\Entity;
 
