@@ -28,7 +28,7 @@ class WpPlaylistRepository
         `name` AS title,
         `description`,
         OPT_IMG.option_value AS image_url,
-        OPT_YT.option_value AS playlist_id
+        OPT_YT.option_value AS youtube_id
       FROM wp_term_taxonomy TAX
       INNER JOIN wp_terms TER
         ON TAX.taxonomy = "$playlist_taxonomy" AND TAX.term_id = TER.term_id
@@ -50,7 +50,7 @@ SQL;
         $p->title = $row["title"];
         $p->description = $row["description"];
         $p->imageUrl = $row["image_url"];
-        $p->playlistId = $row["playlist_id"];
+        $p->youtubeId = $row["youtube_id"];
         $playlists[] = $p;
     }
     $result->close();

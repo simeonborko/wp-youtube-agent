@@ -8,7 +8,7 @@ class WpPlaylist {
   public $description;
   public $imageUrl;
   
-  public $playlistId; // id of YtPlaylist
+  public $youtubeId; // id of YtPlaylist
   
   public $sermons; // list of WpSermon
 }

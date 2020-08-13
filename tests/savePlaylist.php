@@ -11,7 +11,7 @@ $playlist = new WpPlaylist();
 $playlist->title = "My Playlist";
 $playlist->description = "This is my sample playlist.";
 $playlist->imageUrl = "https://maxcdn.icons8.com/iOS7/PNG/512/Music/playlist-512.png";
-$playlist->playlistId = "12345";
+$playlist->youtubeId = "12345";
 $playlist->sermons = array($sermon);
 
 $playlistRepo = new WpPlaylistNativeRepository();
