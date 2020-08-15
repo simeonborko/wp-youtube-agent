@@ -8,6 +8,9 @@ require_once __DIR__."/WpSermonRepository.php";
 class WpSermonNativeRepository
 {
   const SERMON_POST_TYPE = 'sermons';
+  const TARGET_IMAGE_WIDTH = 600;
+  
+  public $resizeImage = true;
   
   public function save($sermon, $publish=true)
   {
@@ -69,8 +72,20 @@ class WpSermonNativeRepository
   
   protected function setThumbnailFromUrl($sermonId, $slug, $imageUrl)
   {
-    $imageContents = \file_get_contents($imageUrl);
-
+    if ($this->resizeImage == false) {
+      $imageContents = \file_get_contents($imageUrl);
+    } else {
+      $img = \imagecreatefromjpeg($imageUrl);
+      $width = \imagesx($img);
+      if ($width > self::TARGET_IMAGE_WIDTH) {
+        $newHeight = \round(\imagesy($img) * self::TARGET_IMAGE_WIDTH / $width);
+        $img = \imagescale($img, self::TARGET_IMAGE_WIDTH, $newHeight);
+      }
+      \ob_start();
+      \imagejpeg($img);
+      $imageContents = \ob_get_clean();
+    }
+    
     $upload = \wp_upload_bits($slug.'.jpg', null, $imageContents);
 
     // check and return file type

@@ -47,8 +47,8 @@ class YtVideoRepository
         $v->id = $item->snippet->resourceId->videoId;
         $v->title = $item->snippet->title;
         $v->description = $item->snippet->description;
-        if (isset($item->snippet->thumbnails->standard)) {
-          $v->imageUrl = $item->snippet->thumbnails->standard->url;
+        if (isset($item->snippet->thumbnails->maxres)) {
+          $v->imageUrl = $item->snippet->thumbnails->maxres->url;
         }
         $videos[] = $v;
       }
