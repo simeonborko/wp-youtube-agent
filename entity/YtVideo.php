@@ -9,9 +9,4 @@ class YtVideo {
   public $description;
   public $publishedAt;
   public $tags; // list of strings
-  
-  public static function compare($a, $b)
-  {
-    return \strcmp($a->publishedAt, $b->publishedAt);
-  }
 }

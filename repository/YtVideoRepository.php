@@ -31,7 +31,7 @@ class YtVideoRepository
       $response = $this->getResponse($queryParams);
     }
     $this->processItems($videos, $response->items);
-    \usort($videos, 'YtVideo::compare'); // sort by publishedAt
+    \usort($videos, function($a,$b){ return \strcmp($a->publishedAt, $b->publishedAt); });
     return $videos;
   }
 
