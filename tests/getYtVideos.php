@@ -31,7 +31,7 @@ foreach ($videos as $video) {
 .cut-text { 
   text-overflow: ellipsis;
   overflow: hidden; 
-  max-width: 400px; 
+  max-width: 300px; 
   height: 1.2em; 
   white-space: nowrap;
 }
@@ -46,6 +46,7 @@ foreach ($videos as $v):
         <td><?= $v->title ?></td>
         <td><div class="cut-text"><?= $v->description ?></div></td>
         <td><div class="cut-text"><?= join(", ", $v->tags) ?></div></td>
+        <td><?= $v->publishedAt ?></td>
         <td>
             <?php if ($v->imageUrl): ?>
             <img src="<?= $v->imageUrl ?>" height="100">
