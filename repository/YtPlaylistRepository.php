@@ -18,11 +18,27 @@ class YtPlaylistRepository
 
   // param channelId: channel id
   // return: list of YtPlaylist
-  public function findByChannelId($channelId) {
+  public function findByChannelId($channelId)
+  {
     $queryParams = array(
       'channelId' => $channelId,
       'maxResults' => 100
     );
+    return $this->find($queryParams);
+  }
+  
+  public function getById($playlistId)
+  {
+    $queryParams = array('id' => $playlistId);
+    $result = $this->find($queryParams);
+    if (\count($result) != 1) {
+      throw new \Exception("Number of playlists for ID ".$playlistId." is ".\count($result));
+    }
+    return current($result);
+  }
+  
+  private function find($queryParams)
+  {
     $playlists = array();
     $response = $this->getResponse($queryParams);
     while ($response->nextPageToken) {
@@ -34,13 +50,15 @@ class YtPlaylistRepository
     return $playlists;
   }
 
-  protected function getResponse($queryParams) {
+  private function getResponse($queryParams)
+  {
     return $this->service->playlists->listPlaylists('snippet,contentDetails', $queryParams);
   }
 
   // param playlists: list where YtPlaylist objects will be saved
   // param items: list of items from response
-  protected function processItems(&$playlists, $items) {
+  private function processItems(&$playlists, $items)
+  {
     foreach ($items as $item) {
       $p = new Entity\YtPlaylist();
       $p->id = $item->id;
