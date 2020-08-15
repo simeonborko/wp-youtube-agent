@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../wp-load.php';
+require_once __DIR__."/common.php";
 require_once __DIR__."/../entity/WpSermon.php";
 require_once __DIR__."/../repository/WpSermonRepository.php";
 
@@ -17,7 +17,8 @@ $sermon->tags = array('duckduckgo', 'search engine', 'google', 'google alternati
 $sermon->videoId = 'a8Uk6fI4oS4';
 $sermon->audioUrl = 'http://www.example.com/';
 
-$repo = new WpSermonRepository();
+$mysqli = getMysqli();
+$repo = new WpSermonRepository($mysqli);
 $repo->save($sermon);
 
 echo "New sermon ID is ".$sermon->id;

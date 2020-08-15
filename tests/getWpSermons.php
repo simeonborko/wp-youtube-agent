@@ -9,13 +9,13 @@ $playlistId = $_GET["playlistId"];
 
 require_once __DIR__."/common.php";
 require_once __DIR__."/../entity/WpSermon.php";
-require_once __DIR__."/../repository/WpSermonDirectRepository.php";
+require_once __DIR__."/../repository/WpSermonRepository.php";
 
-use SimeonBorko\WpYoutubeAgent\Repository\WpSermonDirectRepository;
+use SimeonBorko\WpYoutubeAgent\Repository\WpSermonRepository;
 
 $mysqli = getMysqli();
 
-$sermons = (new WpSermonDirectRepository($mysqli))->findByPlaylistId($playlistId);
+$sermons = (new WpSermonRepository($mysqli))->findByPlaylistId($playlistId);
 
 ?>
 

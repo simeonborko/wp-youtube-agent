@@ -5,7 +5,7 @@ namespace SimeonBorko\WpYoutubeAgent\Repository;
 require_once __DIR__."/constants.php";
 require_once __DIR__."/WpSermonDirectRepository.php";
 
-class WpSermonRepository
+class WpSermonRepository extends WpSermonDirectRepository
 {
   const SERMON_POST_TYPE = 'sermons';
   const TARGET_IMAGE_WIDTH = 600;

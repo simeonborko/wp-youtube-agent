@@ -14,7 +14,8 @@ $playlist->imageUrl = "https://maxcdn.icons8.com/iOS7/PNG/512/Music/playlist-512
 $playlist->youtubeId = "12345";
 $playlist->sermons = array($sermon);
 
-$playlistRepo = new WpPlaylistRepository();
+$mysqli = getMysqli();
+$playlistRepo = new WpPlaylistRepository($mysqli);
 $playlistRepo->save($playlist);
 $repo->addToPlaylist($sermon->id, $playlist->id);
 
