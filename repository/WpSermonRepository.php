@@ -3,7 +3,7 @@
 namespace SimeonBorko\WpYoutubeAgent\Repository;
 
 require_once __DIR__."/../entity/WpSermon.php";
-require_once __DIR__."/WpSermonNativeRepository";
+require_once __DIR__."/WpSermonNativeRepository.php";
 
 use SimeonBorko\WpYoutubeAgent\Entity;
 
