@@ -3,12 +3,14 @@
 namespace SimeonBorko\WpYoutubeAgent\Repository;
 
 require_once __DIR__."/../entity/WpSermon.php";
+require_once __DIR__."/WpSermonNativeRepository";
 
 use SimeonBorko\WpYoutubeAgent\Entity;
 
 class WpSermonRepository
 {
   protected $mysqli;
+  protected $nativeRepo;
   
   const TAX_SPEAKER = 'sermons-speakers';
   const TAX_TAG     = 'sermons-tag';
@@ -18,6 +20,7 @@ class WpSermonRepository
   public function __construct($mysqli)
   {
     $this->mysqli = $mysqli;
+    $this->nativeRepo = new WpSermonNativeRepository;
   }
   
   // param mysqli: mysqli object
@@ -74,6 +77,9 @@ SQL;
     $sermon->id = $sermonId;
     $sermon->title = $row["title"];
     $sermon->description = $row["description"];
+    
+    // imageUrl
+    $sermon->imageUrl = $this->nativeRepo->getImageUrl($sermon->id);
     
     // speaker
     $speakers = $this->getRelationship($sermonId, self::TAX_SPEAKER);

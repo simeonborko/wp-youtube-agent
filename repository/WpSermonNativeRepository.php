@@ -32,7 +32,7 @@ class WpSermonNativeRepository
     if ($sermon->ytImageUrl && !\has_post_thumbnail($sermon->id)) {
       $post = \get_post($sermon->id);
       $this->setThumbnailFromUrl($sermon->id, $post->post_name, $sermon->ytImageUrl);
-      $sermon->imageUrl = \get_the_post_thumbnail_url($post);
+      $sermon->imageUrl = $this->getImageUrl($post);
     }
     
     // speaker
@@ -69,6 +69,11 @@ class WpSermonNativeRepository
   public function addToPlaylist($sermonId, $playlistId)
   {
     \wp_set_object_terms($sermonId, $playlistId, WP_PLAYLIST_TAXONOMY);
+  }
+  
+  public function getImageUrl($post)
+  {
+    return \get_the_post_thumbnail_url($post);
   }
   
   protected function setThumbnailFromUrl($sermonId, $slug, $imageUrl)
