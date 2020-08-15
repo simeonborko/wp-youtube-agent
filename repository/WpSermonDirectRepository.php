@@ -3,11 +3,11 @@
 namespace SimeonBorko\WpYoutubeAgent\Repository;
 
 require_once __DIR__."/../entity/WpSermon.php";
-require_once __DIR__."/WpSermonNativeRepository.php";
+require_once __DIR__."/WpSermonRepository.php";
 
 use SimeonBorko\WpYoutubeAgent\Entity;
 
-class WpSermonRepository
+class WpSermonDirectRepository
 {
   protected $mysqli;
   protected $nativeRepo;
@@ -20,7 +20,7 @@ class WpSermonRepository
   public function __construct($mysqli)
   {
     $this->mysqli = $mysqli;
-    $this->nativeRepo = new WpSermonNativeRepository;
+    $this->nativeRepo = new WpSermonRepository;
   }
   
   // param mysqli: mysqli object

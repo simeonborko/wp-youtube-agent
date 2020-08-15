@@ -4,7 +4,7 @@ namespace SimeonBorko\WpYoutubeAgent\Repository;
 
 require_once __DIR__."/constants.php";
 
-class WpPlaylistNativeRepository
+class WpPlaylistRepository
 {
   // save a new playlist as a term
   public function save($playlist)

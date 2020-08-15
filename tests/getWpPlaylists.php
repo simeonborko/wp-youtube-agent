@@ -2,13 +2,13 @@
 
 require_once __DIR__."/common.php";
 require_once __DIR__."/../entity/WpPlaylist.php";
-require_once __DIR__."/../repository/WpPlaylistRepository.php";
+require_once __DIR__."/../repository/WpPlaylistDirectRepository.php";
 
-use SimeonBorko\WpYoutubeAgent\Repository\WpPlaylistRepository;
+use SimeonBorko\WpYoutubeAgent\Repository\WpPlaylistDirectRepository;
 
 $mysqli = getMysqli();
 
-$playlists = (new WpPlaylistRepository($mysqli))->findAll();
+$playlists = (new WpPlaylistDirectRepository($mysqli))->findAll();
 
 ?>
 

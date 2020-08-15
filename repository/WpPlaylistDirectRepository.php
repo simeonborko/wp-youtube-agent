@@ -7,7 +7,7 @@ require_once __DIR__."/../entity/WpPlaylist.php";
 
 use SimeonBorko\WpYoutubeAgent\Entity;
 
-class WpPlaylistRepository
+class WpPlaylistDirectRepository
 {
   protected $mysqli;
   

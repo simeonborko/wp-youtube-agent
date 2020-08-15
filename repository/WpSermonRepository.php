@@ -3,9 +3,9 @@
 namespace SimeonBorko\WpYoutubeAgent\Repository;
 
 require_once __DIR__."/constants.php";
-require_once __DIR__."/WpSermonRepository.php";
+require_once __DIR__."/WpSermonDirectRepository.php";
 
-class WpSermonNativeRepository
+class WpSermonRepository
 {
   const SERMON_POST_TYPE = 'sermons';
   const TARGET_IMAGE_WIDTH = 600;
@@ -37,19 +37,19 @@ class WpSermonNativeRepository
     
     // speaker
     if (\is_string($sermon->speaker)) {
-        \wp_set_object_terms($sermon->id, $sermon->speaker, WpSermonRepository::TAX_SPEAKER);
+        \wp_set_object_terms($sermon->id, $sermon->speaker, WpSermonDirectRepository::TAX_SPEAKER);
     }
     
     // tags
     if (\is_array($sermon->tags)) {
-        \wp_set_object_terms($sermon->id, $sermon->tags, WpSermonRepository::TAX_TAG);
+        \wp_set_object_terms($sermon->id, $sermon->tags, WpSermonDirectRepository::TAX_TAG);
     }
     
     // video id/url
     if ($sermon->videoId) {
       \add_post_meta(
         $sermon->id,
-        WpSermonRepository::META_KEY_VIDEO,
+        WpSermonDirectRepository::META_KEY_VIDEO,
         $sermon->getVideoUrl(),
         true
       );
@@ -59,7 +59,7 @@ class WpSermonNativeRepository
     if ($sermon->audioUrl) {
       \add_post_meta(
         $sermon->id,
-        WpSermonRepository::META_KEY_AUDIO,
+        WpSermonDirectRepository::META_KEY_AUDIO,
         $sermon->audioUrl,
         true
       );

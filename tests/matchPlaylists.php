@@ -1,16 +1,16 @@
 <?php
 
 require_once __DIR__."/common.php";
-require_once __DIR__."/../repository/WpPlaylistRepository.php";
+require_once __DIR__."/../repository/WpPlaylistDirectRepository.php";
 require_once __DIR__."/../repository/YtPlaylistRepository.php";
 require_once __DIR__."/../matching/PlaylistMatching.php";
 
-use SimeonBorko\WpYoutubeAgent\Repository\WpPlaylistRepository;
+use SimeonBorko\WpYoutubeAgent\Repository\WpPlaylistDirectRepository;
 use SimeonBorko\WpYoutubeAgent\Repository\YtPlaylistRepository;
 use SimeonBorko\WpYoutubeAgent\Matching\PlaylistMatching;
 
 $mysqli = getMysqli();
-$wpPlaylists = (new WpPlaylistRepository($mysqli))->findAll();
+$wpPlaylists = (new WpPlaylistDirectRepository($mysqli))->findAll();
 
 $service = getYoutubeService();
 $channelId = getChannelId();
