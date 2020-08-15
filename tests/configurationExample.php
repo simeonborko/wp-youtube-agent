@@ -4,8 +4,8 @@ const DEVELOPER_KEY = "";
 
 const CHANNEL_ID = "";
 
-const DB_HOST = "";
-const DB_USER = "";
-const DB_PASSWD = "";
-const DB_DBNAME = "";
-const DB_PORT = 3306;
+const MY_DB_HOST = "";
+const MY_DB_USER = "";
+const MY_DB_PASSWD = "";
+const MY_DB_DBNAME = "";
+const MY_DB_PORT = 3306;

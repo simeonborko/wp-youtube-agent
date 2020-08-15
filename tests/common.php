@@ -7,7 +7,7 @@ require_once __DIR__."/../vendor/autoload.php";
 require_once __DIR__."/configuration.php";
 
 function getMysqli() {
-  return new mysqli(DB_HOST, DB_USER, DB_PASSWD, DB_DBNAME, DB_PORT);
+  return new mysqli(MY_DB_HOST, MY_DB_USER, MY_DB_PASSWD, MY_DB_DBNAME, MY_DB_PORT);
 }
 
 function getYoutubeService() {
