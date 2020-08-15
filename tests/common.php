@@ -1,6 +1,8 @@
 <?php
 
+ob_start();
 include_once __DIR__.'/../../wp-load.php';
+ob_end_clean();
 require_once __DIR__."/../vendor/autoload.php";
 require_once __DIR__."/configuration.php";
 
