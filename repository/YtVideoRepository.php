@@ -31,6 +31,7 @@ class YtVideoRepository
       $response = $this->getResponse($queryParams);
     }
     $this->processItems($videos, $response->items);
+    \usort($videos, 'YtVideo::compare'); // sort by publishedAt
     return $videos;
   }
 
@@ -47,6 +48,7 @@ class YtVideoRepository
         $v->id = $item->snippet->resourceId->videoId;
         $v->title = $item->snippet->title;
         $v->description = $item->snippet->description;
+        $v->publishedAt = $item->snippet->publishedAt;
         if (isset($item->snippet->thumbnails->maxres)) {
           $v->imageUrl = $item->snippet->thumbnails->maxres->url;
         }
