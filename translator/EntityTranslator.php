@@ -16,7 +16,7 @@ class EntityTranslator
     $wp = new WpSermon();
     $wp->title    = $yt->title;
     $wp->description = $yt->description;
-    $wp->imageUrl = $yt->imageUrl;
+    $wp->ytImageUrl  = $yt->imageUrl;
     $wp->tags     = $yt->tags;
     $wp->videoId  = $yt->id;
     return $wp;

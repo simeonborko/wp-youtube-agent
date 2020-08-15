@@ -29,9 +29,10 @@ class WpSermonNativeRepository
     $sermon->id = $result;
     
     // imageUrl
-    if ($sermon->imageUrl && !\has_post_thumbnail($sermon->id)) {
+    if ($sermon->ytImageUrl && !\has_post_thumbnail($sermon->id)) {
       $post = \get_post($sermon->id);
-      $this->setThumbnailFromUrl($sermon->id, $post->post_name, $sermon->imageUrl);
+      $this->setThumbnailFromUrl($sermon->id, $post->post_name, $sermon->ytImageUrl);
+      $sermon->imageUrl = \get_the_post_thumbnail_url($post);
     }
     
     // speaker

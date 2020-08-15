@@ -6,7 +6,9 @@ class WpSermon {
   public $id;
   public $title;
   public $description;
-  public $imageUrl;
+  
+  public $ytImageUrl; // YouTube image URL
+  public $imageUrl;   // saved WordPress image URL
   
   public $speaker; // string
   public $tags;    // list of strings
