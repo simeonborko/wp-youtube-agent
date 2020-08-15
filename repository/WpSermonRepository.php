@@ -2,6 +2,8 @@
 
 namespace SimeonBorko\WpYoutubeAgent\Repository;
 
+require_once __DIR__."/../entity/WpSermon.php";
+
 use SimeonBorko\WpYoutubeAgent\Entity;
 
 class WpSermonRepository

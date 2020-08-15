@@ -2,43 +2,20 @@
 
 namespace SimeonBorko\WpYoutubeAgent\Matching;
 
-class PlaylistMatching
+require_once __DIR__."/BaseMatching.php";
+
+class PlaylistMatching extends BaseMatching
 {
   
   const MIN_TITLE_SIMILARITY = 85;
   const YEAR_REGEX_PATTERN = '/[0-9]{4}/';
-  
-  // params:
-  // - wpPlaylists: list of WpPlaylist objects
-  // - ytPlaylists: list of YtPlaylist objects
-  // returns array with the following keys:
-  // - matches: list of arrays with keys wp, yt
-  // - wpOnly: list of WpPlaylist objects having no match with any YouTube playlist
-  // - ytOnly: list of YtPlaylist objects having no match with any WordPress playlist 
-  public function match($wpPlaylists, $ytPlaylists)
-  {
-    $matches = array();
-    foreach ($wpPlaylists as $wpKey => $wpValue) {
-      $ytKey = $this->chooseYtPlaylist($wpValue, $ytPlaylists);
-      if ($ytKey != null) {
-        $matches[] = array('wp' => $wpValue, 'yt' => $ytPlaylists[$ytKey]);
-        unset($wpPlaylists[$wpKey]);
-        unset($ytPlaylists[$ytKey]);
-      }
-    }
-    return array(
-      'matches' => $matches,
-      'wpOnly' => $wpPlaylists,
-      'ytOnly' => $ytPlaylists
-    );
-  }
   
   // choose YouTube playlist from array for the given WordPress playlist
   // params:
   // - wp: WpPlaylist object
   // - ytPlaylists: list of available YtPlaylist objects
   // returns null if cannot choose any YouTube playlist or key from ytPlaylists
-  private function chooseYtPlaylist($wp, $ytPlaylists)
+  protected function choose($wp, $ytPlaylists)
   {
     $youtubeIdMatches = array();
     $similarTitles = array();  // ytKey => similarity
