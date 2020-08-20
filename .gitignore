@@ -1,3 +1,5 @@
 /vendor
 /composer.lock
 /tests/configuration.php
+/composer.phar
+/settings.php

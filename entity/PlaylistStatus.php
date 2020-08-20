@@ -6,6 +6,6 @@ class PlaylistStatus {
   public $wpId;
   public $ytId;
   public $matchedVideoCount;
-  public $wpOnlyVideoIdList;
+  public $wpOnlyVideoIdList; // sermons
   public $ytOnlyVideoIdList;
 }
