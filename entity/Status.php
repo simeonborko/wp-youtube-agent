@@ -6,4 +6,5 @@ class Status {
   public $matchedPlaylistStatusList;
   public $wpOnlyPlaylistIdList;
   public $ytOnlyPlaylistIdList;
+  public $updated; // DateTime object
 }

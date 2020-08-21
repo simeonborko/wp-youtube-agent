@@ -16,6 +16,7 @@ class StatusRepository
   }
   
   public function save($status) {
+    $status->updated = new \DateTime;
     \update_option(WP_STATUS_OPTION, $status);
   }
 }
