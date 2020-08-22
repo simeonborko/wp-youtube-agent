@@ -6,11 +6,17 @@ require_once __DIR__."/../repository/YtPlaylistRepository.php";
 
 use SimeonBorko\WpYoutubeAgent\Repository\YtPlaylistRepository;
 
+$start = microtime(true);
+
 $service = getYoutubeService();
 $channelId = getChannelId();
 $playlists = (new YtPlaylistRepository($service))->findByChannelId($channelId);
 
+$timeElapsedSecs = microtime(true) - $start;
+
 ?>
+
+<p>Time elapsed secs: <?= $timeElapsedSecs ?></p>
 
 <table border="1">
 <?php

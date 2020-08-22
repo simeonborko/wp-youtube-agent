@@ -6,7 +6,7 @@ require_once __DIR__."/../entity/YtVideo.php";
 
 use SimeonBorko\WpYoutubeAgent\Entity;
 
-class YtVideoRepository
+class YtVideoStatelessRepository
 {
   protected $service;
   

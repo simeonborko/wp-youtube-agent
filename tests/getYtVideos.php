@@ -14,8 +14,9 @@ require_once __DIR__."/../repository/YtTagRepository.php";
 
 use SimeonBorko\WpYoutubeAgent\Repository;
 
-$service = getYoutubeService();
+$start = microtime(true);
 
+$service = getYoutubeService();
 $videoRepo = new Repository\YtVideoRepository($service);
 $tagRepo = new Repository\YtTagRepository($service);
 
@@ -25,7 +26,11 @@ foreach ($videos as $video) {
     $video->tags = $tagRepo->findByVideoId($video->id);
 }
 
+$timeElapsedSecs = microtime(true) - $start;
+
 ?>
+
+<p>Time elapsed secs: <?= $timeElapsedSecs ?></p>
 
 <style>
 .cut-text { 
