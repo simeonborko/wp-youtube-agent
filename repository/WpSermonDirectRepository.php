@@ -4,7 +4,7 @@ namespace SimeonBorko\WpYoutubeAgent\Repository;
 
 require_once __DIR__."/../entity/WpSermon.php";
 
-use SimeonBorko\WpYoutubeAgent\Entity;
+use SimeonBorko\WpYoutubeAgent\Entity\WpSermon;
 
 abstract class WpSermonDirectRepository
 {
@@ -70,7 +70,7 @@ SQL;
     $result->close();
     
     // id, title, description
-    $sermon = new Entity\WpSermon();
+    $sermon = new WpSermon();
     $sermon->id = $sermonId;
     $sermon->title = $row["title"];
     $sermon->description = $row["description"];

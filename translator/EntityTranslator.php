@@ -2,8 +2,8 @@
 
 namespace SimeonBorko\WpYoutubeAgent\Translator;
 
-require __DIR__."/../entity/WpSermon.php";
-require __DIR__."/../entity/WpPlaylist.php";
+require_once __DIR__."/../entity/WpSermon.php";
+require_once __DIR__."/../entity/WpPlaylist.php";
 
 use SimeonBorko\WpYoutubeAgent\Entity\WpPlaylist;
 use SimeonBorko\WpYoutubeAgent\Entity\WpSermon;
