@@ -16,14 +16,19 @@ class WpPlaylistRepository extends WpPlaylistDirectRepository
       throw new \Exception("Playlist could not be saved");
     }
     $playlist->id = $result["term_id"];
-    // image
-    if ($playlist->imageUrl) {
-      $this->setOption($playlist, WP_PLAYLIST_OPTION_IMAGE_URL_SUFFIX, $playlist->imageUrl, "Image");
-    }
+    // image url
+    $this->saveImageUrl($playlist);
     // youtube playlist id
     $this->saveYoutubeId($playlist);
     // waive match
     $this->saveWaiveMatch($playlist);
+  }
+  
+  public function saveImageUrl($playlist)
+  {
+    if ($playlist->imageUrl) {
+      $this->setOption($playlist, WP_PLAYLIST_OPTION_IMAGE_URL_SUFFIX, $playlist->imageUrl, "Image URL");
+    }
   }
   
   public function saveYoutubeId($playlist)

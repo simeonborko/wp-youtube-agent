@@ -11,14 +11,41 @@ abstract class WpPlaylistDirectRepository
 {
   protected $mysqli;
   
+  // param mysqli: mysqli object
   public function __construct($mysqli)
   {
     $this->mysqli = $mysqli;
   }
   
-  // param mysqli: mysqli object
-  // return: list of WpPlaylist
   public function findAll()
+  {
+    return $this->find();
+  }
+  
+  public function getById($playlistId)
+  {
+    $result = $this->find(array($playlistId));
+    if (\count($result) != 1) {
+      throw new \Exception("Number of playlists for ID ".$playlistId." is ".\count($result));
+    }
+    return current($result);
+  }
+  
+  public function getByIdList($playlistIdList)
+  {
+    if (\count($playlistIdList) > 0) {
+      $result = $this->find($playlistIdList);
+      if (\count($result) != \count($playlistIdList)) {
+        throw new \Exception(sprintf("Number of playlists is %d but the expected number is %d", \count($result), \count($playlistIdList)));
+      }
+      return $result;
+    } else {
+      return array();
+    }
+  }
+  
+  // return: list of WpPlaylist
+  public function find($playlistIdList = null)
   {
     $playlist_taxonomy = WP_PLAYLIST_TAXONOMY;
     $image_option_suffix = WP_PLAYLIST_OPTION_IMAGE_URL_SUFFIX;
@@ -42,6 +69,12 @@ abstract class WpPlaylistDirectRepository
       LEFT JOIN wp_options OPT_WAIVE
         ON OPT_WAIVE.option_name = CONCAT("$playlist_taxonomy", TER.term_id, "$waive_match_suffix")
 SQL;
+
+    if ($playlistIdList !== null) {
+      $playlistIdList = \array_map(function($id){ return (int) $id; }, $playlistIdList);
+      $playlistIdString = \implode(",", $playlistIdList);
+      $query .= " WHERE TAX.term_id IN ($playlistIdString)";
+    }
 
     $result = $this->mysqli->query($query);
     if (!$result) {
