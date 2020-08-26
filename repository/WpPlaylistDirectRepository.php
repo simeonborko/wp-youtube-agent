@@ -23,13 +23,15 @@ abstract class WpPlaylistDirectRepository
     $playlist_taxonomy = WP_PLAYLIST_TAXONOMY;
     $image_option_suffix = WP_PLAYLIST_OPTION_IMAGE_URL_SUFFIX;
     $youtube_id_suffix = WP_PLAYLIST_OPTION_YOUTUBE_ID_SUFFIX;
+    $waive_match_suffix = WP_PLAYLIST_OPTION_WAIVE_MATCH_SUFFIX;
     $query = <<<SQL
       SELECT
         TAX.term_id AS id,
         `name` AS title,
         `description`,
         OPT_IMG.option_value AS image_url,
-        OPT_YT.option_value AS youtube_id
+        OPT_YT.option_value AS youtube_id,
+        OPT_WAIVE.option_value AS waive_match
       FROM wp_term_taxonomy TAX
       INNER JOIN wp_terms TER
         ON TAX.taxonomy = "$playlist_taxonomy" AND TAX.term_id = TER.term_id
@@ -37,6 +39,8 @@ abstract class WpPlaylistDirectRepository
         ON OPT_IMG.option_name = CONCAT("$playlist_taxonomy", TER.term_id, "$image_option_suffix")
       LEFT JOIN wp_options OPT_YT
         ON OPT_YT.option_name = CONCAT("$playlist_taxonomy", TER.term_id, "$youtube_id_suffix")
+      LEFT JOIN wp_options OPT_WAIVE
+        ON OPT_WAIVE.option_name = CONCAT("$playlist_taxonomy", TER.term_id, "$waive_match_suffix")
 SQL;
 
     $result = $this->mysqli->query($query);
@@ -52,6 +56,7 @@ SQL;
         $p->description = $row["description"];
         $p->imageUrl = $row["image_url"];
         $p->youtubeId = $row["youtube_id"];
+        $p->waiveMatch = $row["waive_match"] !== null ? (bool) $row["waive_match"] : null;
         $playlists[] = $p;
     }
     $result->close();
