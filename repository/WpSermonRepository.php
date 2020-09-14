@@ -68,7 +68,7 @@ class WpSermonRepository extends WpSermonDirectRepository
   
   public function addToPlaylist($sermonId, $playlistId)
   {
-    \wp_set_object_terms($sermonId, $playlistId, WP_PLAYLIST_TAXONOMY);
+    \wp_set_object_terms((int) $sermonId, (int) $playlistId, WP_PLAYLIST_TAXONOMY);
   }
   
   public function getImageUrl($post)
