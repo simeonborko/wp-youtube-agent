@@ -9,7 +9,7 @@ use SimeonBorko\WpYoutubeAgent\Repository\WpPlaylistRepository;
 use SimeonBorko\WpYoutubeAgent\Repository\WpSermonRepository;
 use SimeonBorko\WpYoutubeAgent\Translator\EntityTranslator;
 
-require_once __DIR__."/../repository/YtPlaylistRepository";
+require_once __DIR__."/../repository/YtPlaylistRepository.php";
 require_once __DIR__."/../repository/YtVideoRepository.php";
 require_once __DIR__."/../repository/YtTagRepository.php";
 require_once __DIR__."/../repository/WpPlaylistRepository.php";
@@ -27,6 +27,9 @@ class Transfer
   private $entityTranslator;
   private $statusUpdater;
   
+  private $transferredVideos;
+  private $transferredPlaylists;
+  
   public function __construct($service, $mysqli)
   {
     $this->ytPlaylistRepo = new YtPlaylistRepository($service);
@@ -36,6 +39,9 @@ class Transfer
     $this->wpPlaylistRepo = new WpPlaylistRepository($mysqli);
     $this->entityTranslator = new EntityTranslator;
     $this->statusUpdater = new StatusUpdater($service, $mysqli);
+    
+    $this->transferredVideos = 0;
+    $this->transferredPlaylists = 0;
   }
   
   public function doTransfer($status = null)
@@ -43,20 +49,41 @@ class Transfer
     if ($status == null) {
       $status = $this->statusUpdater->updateStatus();
     }
-    $transferredVideos = 0;
     foreach ($status->matchedPlaylistStatusList as $plStatus) {
-      $transferredVideos += $this->transferVideosFromPlStatus($plStatus);
+      $this->transferVideosFromPlStatus($plStatus);
     }
+    $this->transferAllPlaylists($status);
     $status = $this->statusUpdater->updateStatus();
     return array(
-      'video' => $transferredVideos,
-      'playlist' => 0,
+      'video' => $this->transferredVideos,
+      'playlist' => $this->transferredPlaylists,
       'status' => $status
     );
   }
   
-  private function transferPlaylists($status)
+  public function transferPlaylist($ytPlaylist)
   {
+    $ytVideos = $this->ytVideoRepo->findByPlaylistId($ytPlaylist->id);
+    if ($ytVideos) {
+      $wpPl = $this->entityTranslator->translatePlaylist($ytPlaylist);
+      // ytVideos were sorted by publishedAt,
+      // we use the first video to get image for the whole playlist
+      $wpPl->imageUrl = $ytVideos[0]->imageUrl;
+      // save playlist
+      $this->wpPlaylistRepo->save($wpPl);
+      $this->transferredPlaylists += 1;
+      // transfer videos
+      $wpSermons = $this->transferVideos($ytVideos, $wpPl->id);
+      return \count($wpSermons);
+    } else {
+      return null;
+    }
+  }
+  
+  private function transferAllPlaylists($status)
+  {
+    // wpOnly are those that are only in WordPress and not on Youtube
+    // all of them have to be waived before playlists can be transferred
     $allWpWaived = \array_reduce(
       $this->wpPlaylistRepo->getByIdList($status->wpOnlyPlaylistIdList),
       function($carry, $wpPl) {
@@ -67,16 +94,7 @@ class Transfer
     if ($allWpWaived) {
       $ytPlaylists = \array_map(array($this->ytPlaylistRepo, 'getById'), $status->ytOnlyPlaylistIdList);
       foreach ($ytPlaylists as $ytPl) {
-        $ytVideos = $this->ytVideoRepo->findByPlaylistId($ytPl->id);
-        if ($ytVideos) {
-          $wpPl = $this->entityTranslator->translatePlaylist($ytPl);
-          // TODO add image url of the first video
-          $this->wpPlaylistRepo->save($wpPl);
-          $wpSermons = $this->transferVideos($ytVideos, $wpPl->id);
-          // ytVideos were sorted by publishedAt,
-          // transfering didn't change order, so wpSermons are ordered as well
-          // we use the first video to get image for the whole playlist
-        }
+        $this->transferPlaylist($ytPl);
       }
     }
   }
@@ -95,6 +113,7 @@ class Transfer
       $this->wpSermonRepo->save($wp, false);
       $this->wpSermonRepo->addToPlaylist($wp->id, $wpPlaylistId);
     }
+    $this->transferredVideos += \count($wpSermons);
     return $wpSermons;
   }
   
@@ -117,8 +136,7 @@ class Transfer
           \count($ytVideos), \count($plStatus->ytOnlyVideoIdList)
         ));
       }
-      $wpSermons = $this->transferVideos($ytVideos, $plStatus->wpId);
-      return \count($wpSermons);
+      $this->transferVideos($ytVideos, $plStatus->wpId);
     }
   }
 }

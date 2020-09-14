@@ -4,6 +4,7 @@ namespace SimeonBorko\WpYoutubeAgent\Repository;
 
 require_once __DIR__."/constants.php";
 require_once __DIR__."/WpSermonDirectRepository.php";
+require_once __DIR__."/ImageTool.php";
 
 class WpSermonRepository extends WpSermonDirectRepository
 {
@@ -78,39 +79,14 @@ class WpSermonRepository extends WpSermonDirectRepository
   
   protected function setThumbnailFromUrl($sermonId, $slug, $imageUrl)
   {
-    if ($this->resizeImage == false) {
-      $imageContents = \file_get_contents($imageUrl);
-    } else {
-      $img = \imagecreatefromjpeg($imageUrl);
-      $width = \imagesx($img);
-      if ($width > self::TARGET_IMAGE_WIDTH) {
-        $newHeight = \round(\imagesy($img) * self::TARGET_IMAGE_WIDTH / $width);
-        $img = \imagescale($img, self::TARGET_IMAGE_WIDTH, $newHeight);
-      }
-      \ob_start();
-      \imagejpeg($img);
-      $imageContents = \ob_get_clean();
+    $imgTool = new ImageTool($imageUrl);
+    if ($this->resizeImage) {
+      $imgTool->scale(self::TARGET_IMAGE_WIDTH);
     }
-    
-    $upload = \wp_upload_bits($slug.'.jpg', null, $imageContents);
-
-    // check and return file type
-    $imageFile = $upload['file'];
-    $wpFileType = \wp_check_filetype($imageFile, null);
-
-    // Attachment attributes for file
-    $attachment = array(
-      'post_mime_type' => $wpFileType['type'],  // file type
-      'post_title' => \sanitize_file_name($imageFile),  // sanitize and use image name as file name
-      'post_content' => '',  // could use the image description here as the content
-      'post_status' => 'inherit'
-    );
-
-    // insert and return attachment id
-    $attachmentId = \wp_insert_attachment( $attachment, $imageFile, $sermonId );
+    // upload attachment
+    $attachmentId = $imgTool->uploadAttachment($slug, $sermonId);
     // finally, associate attachment id to post id
     $success = \set_post_thumbnail( $sermonId, $attachmentId );
-
     return $success;
   }
 }

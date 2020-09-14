@@ -4,6 +4,7 @@ namespace SimeonBorko\WpYoutubeAgent\Repository;
 
 require_once __DIR__."/constants.php";
 require_once __DIR__."/WpPlaylistDirectRepository.php";
+require_once __DIR__."/ImageTool.php";
 
 class WpPlaylistRepository extends WpPlaylistDirectRepository
 {
@@ -24,9 +25,12 @@ class WpPlaylistRepository extends WpPlaylistDirectRepository
     $this->saveWaiveMatch($playlist);
   }
   
-  public function saveImageUrl($playlist)
+  public function saveImageUrl($playlist, $scale = true)
   {
     if ($playlist->imageUrl) {
+      if ($scale) {
+        $this->scaleImage($playlist);
+      }
       $this->setOption($playlist, WP_PLAYLIST_OPTION_IMAGE_URL_SUFFIX, $playlist->imageUrl, "Image URL");
     }
   }
@@ -51,6 +55,21 @@ class WpPlaylistRepository extends WpPlaylistDirectRepository
     $option_name = WP_PLAYLIST_TAXONOMY . $playlist->id . $option_suffix;
     if (!\update_option($option_name, $option_value)) {
       echo \sprintf("Warning: %s for playlist %s could not been added", $msg_name, $playlist->title);
+    }
+  }
+  
+  private function scaleImage($playlist)
+  {
+    $imgTool = new ImageTool($playlist->imageUrl);
+    $modified = $imgTool->scale(WP_PLAYLIST_IMAGE_WIDTH, WP_PLAYLIST_IMAGE_HEIGHT);
+    if ($modified) {
+      $term = \get_term((int) $playlist->id);
+      $attachmentId = $imgTool->uploadAttachment($term->slug);
+      $url = \wp_get_attachment_url($attachmentId);
+      if (!$url) {
+        throw new \Exception("Could not scale image");
+      }
+      $playlist->imageUrl = $url;
     }
   }
   
